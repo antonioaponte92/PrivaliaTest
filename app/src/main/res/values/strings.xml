@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Privalia Mobile Challenge</string>
+    <string name="title_year">REPLACE_TITLE (REPLACE_YEAR)</string>
+    <string name="more">More</string>
+    <string name="search">Search</string>
+    <string name="loading_movies">Loading movies.</string>
+    <string name="limit">There are no more movies</string>
+    <string name="overview">Overview</string>
+    <string name="year">Year</string>
+</resources>
