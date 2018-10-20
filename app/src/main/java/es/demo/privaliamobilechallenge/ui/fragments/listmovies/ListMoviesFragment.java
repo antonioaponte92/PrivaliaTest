@@ -33,7 +33,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     private ListMoviesPresenter presenter;
     private int page;
     private int pagesTotal;
-    private List<Movie> moviesList;
+    private String name_list;
     MoviesListAdapter adapter;
     LinearLayoutManager linearLayoutManager;
 
@@ -54,7 +54,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         super.onViewCreated(view, savedInstanceState);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         page = 1;
-        moviesList = new ArrayList<>();
+        name_list = "popular";
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(true);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -62,7 +62,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         recyclerView.setAdapter(adapter);
         presenter = new ListMoviesPresenter(this);
         presenter.onAttach(this);
-        presenter.getMovieList(page);
+        presenter.getMovieList(name_list,page);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
             if (getView()!=null)
                 Snackbar.make(getView(), R.string.loading_movies, Snackbar.LENGTH_LONG).show();
             page++;
-            presenter.getMovieList(page);
+            presenter.getMovieList(name_list,page);
         }else
             if (getView()!=null)
                 Snackbar.make(getView(), R.string.limit, Snackbar.LENGTH_LONG).show();

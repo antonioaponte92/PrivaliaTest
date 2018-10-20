@@ -14,8 +14,8 @@ public class ListMoviesModel {
     public static final String TAG = ListMoviesModel.class.getSimpleName();
     MoviesApi api = RetrofitClient.getClient(BuildConfig.BASE_URL).create(MoviesApi.class);
 
-    public void getMoviesList(int page, final ListMoviesContract.ModelResultListener listener){
-        api.getMovies(BuildConfig.LIST,page,BuildConfig.API_KEY,"vote_average.desc")
+    public void getMoviesList(String name_list,int page, final ListMoviesContract.ModelResultListener listener){
+        api.getMovies(name_list,BuildConfig.API_KEY,page)
                 .enqueue(new Callback<MoviesResponse>() {
                     @Override
                     public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {

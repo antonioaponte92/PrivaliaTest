@@ -12,9 +12,9 @@ public class ListMoviesPresenter implements ListMoviesContract.Presenter,ListMov
     }
 
     @Override
-    public void getMovieList(int page) {
+    public void getMovieList(String name_list,int page) {
         if (view==null) return;
-        model.getMoviesList(page,this);
+        model.getMoviesList(name_list,page,this);
     }
 
     @Override

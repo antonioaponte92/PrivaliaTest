@@ -10,7 +10,7 @@ public class ListMoviesContract extends MVPContract{
     }
 
     public interface Presenter extends MVPContract.Presenter<View>{
-        void getMovieList(int page);
+        void getMovieList(String name_list, int page);
     }
 
     public interface View{

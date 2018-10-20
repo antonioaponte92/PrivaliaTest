@@ -9,9 +9,8 @@ import retrofit2.http.Query;
 
 public interface MoviesApi {
     @Headers("Content-Type:application/json")
-    @GET("list/{id_list}")
-    Call<MoviesResponse> getMovies(@Path("id_list")  int id,
-                                   @Query("page")    int page,
+    @GET("movie/{list}")
+    Call<MoviesResponse> getMovies(@Path("list") String name_list,
                                    @Query("api_key") String key,
-                                   @Query("sort_by") String order);
+                                   @Query("page") int page);
 }
