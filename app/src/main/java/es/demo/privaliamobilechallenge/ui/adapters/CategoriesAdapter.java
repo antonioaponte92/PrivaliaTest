@@ -19,12 +19,10 @@ import es.demo.privaliamobilechallenge.ui.listeners.CategoriesListener;
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder>{
     CategoriesListener listener;
     List<String> list;
-    Context context;
 
-    public CategoriesAdapter(CategoriesListener listener, List<String> list, Context context) {
+    public CategoriesAdapter(CategoriesListener listener, List<String> list) {
         this.listener = listener;
         this.list = list;
-        this.context = context;
     }
 
     @NonNull

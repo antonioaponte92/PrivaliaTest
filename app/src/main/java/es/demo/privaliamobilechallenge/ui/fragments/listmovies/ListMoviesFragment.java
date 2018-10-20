@@ -102,7 +102,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         categories.addAll(Arrays.asList(getResources().getStringArray(R.array.categories)));
         categories_val.addAll(Arrays.asList(getResources().getStringArray(R.array.categories_values)));
         selectedCat = categories_val.get(0);
-        catAdapter = new CategoriesAdapter(this,categories,getActivity());
+        catAdapter = new CategoriesAdapter(this,categories);
         recyclerCat.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
         recyclerCat.setAdapter(catAdapter);
     }
