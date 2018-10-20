@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -26,7 +27,8 @@ import es.demo.privaliamobilechallenge.ui.fragments.listmovies.mvp.ListMoviesCon
 import es.demo.privaliamobilechallenge.ui.fragments.listmovies.mvp.ListMoviesPresenter;
 
 public class ListMoviesFragment extends BaseFragment implements ListMoviesContract.View
-        , MoviesListAdapter.MoviesRecyclerListener{
+        , MoviesListAdapter.MoviesRecyclerListener
+        , SwipeRefreshLayout.OnRefreshListener{
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.etSearch)
@@ -37,6 +39,8 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     LinearLayout llNoInternet;
     @BindView(R.id.llError)
     LinearLayout llError;
+    @BindView(R.id.swipe)
+    SwipeRefreshLayout swipeRefreshLayout;
     private ListMoviesPresenter presenter;
     private int page;
     private int pagesTotal;
@@ -71,10 +75,13 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         presenter.onAttach(this);
         if (etSearch.getText().toString().isEmpty())    presenter.getMovieList(name_list,page);
         else                                            presenter.getMovieByKeyword(etSearch.getText().toString(),page);
+
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
     public void showMovies(MoviesResponse response) {
+        swipeRefreshLayout.setRefreshing(false);
         pagesTotal = response.getTotalPages();
         progressBar.setVisibility(View.GONE);
         if (page==1)    adapter.setData(response.getResults());
@@ -135,5 +142,12 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         return false;
+    }
+
+
+    @Override
+    public void onRefresh() {
+        if (etSearch.getText().toString().isEmpty())    presenter.getMovieList(name_list,page);
+        else                                            presenter.getMovieByKeyword(etSearch.getText().toString(),page);
     }
 }
