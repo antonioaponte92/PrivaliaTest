@@ -24,12 +24,6 @@ public class MainActivity extends BaseActivity implements MainListener{
         pushFragment(ListMoviesFragment.newInstance());
     }
 
-    private void showFragment(Fragment fragment){
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.frame_layout,fragment);
-        ft.commit();
-    }
-
     public void pushFragment(Fragment fragment){
         String backStateName = fragment.getClass().getName();
         FragmentManager manager = getSupportFragmentManager();
