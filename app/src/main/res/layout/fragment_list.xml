@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/search"
             android:inputType="text"
-            android:drawableStart="@drawable/baseline_search_black_24"
+            android:drawableStart="@drawable/ic_search"
             android:background="@android:color/transparent"
             android:drawablePadding="12dp"/>
     </android.support.v7.widget.CardView>

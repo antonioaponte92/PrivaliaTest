@@ -26,6 +26,7 @@ public class DetailMovieFragment extends Fragment{
     @BindView(R.id.tv_overview)     TextView tv_overview;
     @BindView(R.id.tv_year)         TextView tv_year;
     @BindView(R.id.iv_poster)       ImageView iv_poster;
+    @BindView(R.id.iv_back)       ImageView iv_back;
 
     public static DetailMovieFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
@@ -45,7 +46,8 @@ public class DetailMovieFragment extends Fragment{
             tv_title.setText(movie.getOriginalTitle());
             tv_year.setText(Utils.getYear(movie.getReleaseDate()));
             tv_overview.setText(movie.getOverview());
-            Glide.with(this).load(BuildConfig.PHOTO_URL+ movie.getBackdropPath()).into(iv_poster);
+            Glide.with(this).load(BuildConfig.PHOTO_URL+ movie.getBackdropPath()).into(iv_back);
+            Glide.with(this).load(BuildConfig.PHOTO_URL+ movie.getPosterPath()).into(iv_poster);
         }
         return view;
     }
