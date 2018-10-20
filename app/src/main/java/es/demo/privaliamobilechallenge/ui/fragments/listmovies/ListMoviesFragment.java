@@ -7,13 +7,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.support.design.widget.Snackbar;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnTextChanged;
 import butterknife.OnTouch;
@@ -21,14 +28,17 @@ import es.demo.privaliamobilechallenge.R;
 import es.demo.privaliamobilechallenge.commons.BaseFragment;
 import es.demo.privaliamobilechallenge.data.models.Movie;
 import es.demo.privaliamobilechallenge.data.models.MoviesResponse;
+import es.demo.privaliamobilechallenge.ui.adapters.CategoriesAdapter;
 import es.demo.privaliamobilechallenge.ui.adapters.MoviesListAdapter;
 import es.demo.privaliamobilechallenge.ui.fragments.detailmovie.DetailMovieFragment;
 import es.demo.privaliamobilechallenge.ui.fragments.listmovies.mvp.ListMoviesContract;
 import es.demo.privaliamobilechallenge.ui.fragments.listmovies.mvp.ListMoviesPresenter;
+import es.demo.privaliamobilechallenge.ui.listeners.CategoriesListener;
 
 public class ListMoviesFragment extends BaseFragment implements ListMoviesContract.View
         , MoviesListAdapter.MoviesRecyclerListener
-        , SwipeRefreshLayout.OnRefreshListener{
+        , SwipeRefreshLayout.OnRefreshListener
+        , CategoriesListener{
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.etSearch)
@@ -41,12 +51,18 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     LinearLayout llError;
     @BindView(R.id.swipe)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.recyclerCat)
+    RecyclerView recyclerCat;
     private ListMoviesPresenter presenter;
     private int page;
     private int pagesTotal;
     private String name_list;
     MoviesListAdapter adapter;
     LinearLayoutManager linearLayoutManager;
+    List<String> categories;
+    List<String> categories_val;
+    String selectedCat;
+    CategoriesAdapter catAdapter;
 
     public static ListMoviesFragment newInstance() {
         Bundle args = new Bundle();
@@ -66,6 +82,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         linearLayoutManager = new LinearLayoutManager(getActivity());
         page = 1;
         name_list = "popular";
+        createCategories();
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(true);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -77,6 +94,17 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         else                                            presenter.getMovieByKeyword(etSearch.getText().toString(),page);
 
         swipeRefreshLayout.setOnRefreshListener(this);
+    }
+
+    private void createCategories() {
+        categories = new ArrayList<>();
+        categories_val = new ArrayList<>();
+        categories.addAll(Arrays.asList(getResources().getStringArray(R.array.categories)));
+        categories_val.addAll(Arrays.asList(getResources().getStringArray(R.array.categories_values)));
+        selectedCat = categories_val.get(0);
+        catAdapter = new CategoriesAdapter(this,categories,getActivity());
+        recyclerCat.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
+        recyclerCat.setAdapter(catAdapter);
     }
 
     @Override
@@ -119,7 +147,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     public void loadMore() {
         if (page < pagesTotal){
             if (getView()!=null)
-                Snackbar.make(getView(), R.string.loading_movies, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(getView(), R.string.loading_movies, Snackbar.LENGTH_SHORT).show();
             page++;
             presenter.getMovieList(name_list,page);
         }else
@@ -149,5 +177,14 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     public void onRefresh() {
         if (etSearch.getText().toString().isEmpty())    presenter.getMovieList(name_list,page);
         else                                            presenter.getMovieByKeyword(etSearch.getText().toString(),page);
+    }
+
+    @Override
+    public void onClickCat(int pos) {
+        name_list = categories_val.get(pos);
+        page = 1;
+        presenter.getMovieList(name_list,page);
+        if (getView()!=null)
+            Snackbar.make(getView(),getString(R.string.getting).replace("REPLACE",categories.get(pos)),Snackbar.LENGTH_SHORT).show();
     }
 }

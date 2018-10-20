@@ -12,6 +12,19 @@
     <string name="now">Now Playing</string>
     <string name="top">Top Rated</string>
     <string name="upcoming">Upcoming</string>
+    <string-array name="categories">
+        <item>Popular</item>
+        <item>Now Playing</item>
+        <item>Top Rated</item>
+        <item>Upcoming</item>
+    </string-array>
+    <string-array name="categories_values">
+        <item>popular</item>
+        <item>now_playing</item>
+        <item>top_rated</item>
+        <item>upcoming</item>
+    </string-array>
     <string name="no_internet">There is no internet connection</string>
     <string name="error">Something went wrong</string>
+    <string name="getting">Loading REPLACE list</string>
 </resources>
