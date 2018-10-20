@@ -7,4 +7,9 @@
     <string name="limit">There are no more movies</string>
     <string name="overview">Overview</string>
     <string name="year">Year</string>
+    <string name="popular">Popular</string>
+    <string name="latest">Latest</string>
+    <string name="now">Now Playing</string>
+    <string name="top">Top Rated</string>
+    <string name="upcoming">Upcoming</string>
 </resources>
