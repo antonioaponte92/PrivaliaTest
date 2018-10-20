@@ -1,6 +1,5 @@
 package es.demo.privaliamobilechallenge.ui.fragments.listmovies;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.support.design.widget.Snackbar;
+
+import java.util.ArrayList;
+import java.util.List;
 import butterknife.BindView;
 import es.demo.privaliamobilechallenge.R;
 import es.demo.privaliamobilechallenge.commons.BaseFragment;
@@ -17,7 +19,6 @@ import es.demo.privaliamobilechallenge.data.models.Movie;
 import es.demo.privaliamobilechallenge.data.models.MoviesResponse;
 import es.demo.privaliamobilechallenge.ui.adapters.MoviesListAdapter;
 import es.demo.privaliamobilechallenge.ui.fragments.detailmovie.DetailMovieFragment;
-import es.demo.privaliamobilechallenge.ui.listeners.MainListener;
 import es.demo.privaliamobilechallenge.ui.fragments.listmovies.mvp.ListMoviesContract;
 import es.demo.privaliamobilechallenge.ui.fragments.listmovies.mvp.ListMoviesPresenter;
 
@@ -32,6 +33,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     private ListMoviesPresenter presenter;
     private int page;
     private int pagesTotal;
+    private List<Movie> moviesList;
     MoviesListAdapter adapter;
     LinearLayoutManager linearLayoutManager;
 
@@ -52,6 +54,12 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         super.onViewCreated(view, savedInstanceState);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         page = 1;
+        moviesList = new ArrayList<>();
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new MoviesListAdapter(getActivity(),this);
+        recyclerView.setAdapter(adapter);
         presenter = new ListMoviesPresenter(this);
         presenter.onAttach(this);
         presenter.getMovieList(page);
@@ -66,16 +74,9 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     public void showMovies(MoviesResponse response) {
         pagesTotal = response.getTotalPages();
         progressBar.setVisibility(View.GONE);
-        if(adapter==null) {
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setNestedScrollingEnabled(true);
-            adapter = new MoviesListAdapter(getActivity(),response.getResults(),this);
-            recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.setAdapter(adapter);
+        if (page==1)    adapter.setData(response.getResults());
+        else            adapter.addData(response.getResults());
 
-        }else{
-            adapter.addData(response.getResults());
-        }
     }
 
     @Override

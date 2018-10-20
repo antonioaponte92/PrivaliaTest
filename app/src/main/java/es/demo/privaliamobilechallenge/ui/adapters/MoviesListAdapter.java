@@ -27,9 +27,8 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Vi
     private List<Movie> list;
     MoviesRecyclerListener listener;
 
-    public MoviesListAdapter(Context context, List<Movie> list,MoviesRecyclerListener listener) {
+    public MoviesListAdapter(Context context, MoviesRecyclerListener listener) {
         this.context = context;
-        this.list = list;
         this.listener = listener;
     }
 
