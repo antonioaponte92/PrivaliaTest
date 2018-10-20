@@ -15,9 +15,9 @@ public class ListMoviesContract extends MVPContract{
     }
 
     public interface View{
-        void showMessage(String message);
         void showMovies(MoviesResponse response);
         void showNoResult();
+        void showError();
         void showNoInternetConnection();
     }
 }

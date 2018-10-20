@@ -23,8 +23,6 @@ public class ListMoviesModel {
                         if (response.code()==200){
                             if (response.body()!=null){
                                 listener.onGetMoviesSuccess(response.body());
-                            }else{
-                                listener.onGetMoviesFailed("No data");
                             }
                         }else{
                             listener.onGetMoviesFailed("Error: "+response.code());
@@ -49,8 +47,6 @@ public class ListMoviesModel {
                         if (response.code()==200){
                             if (response.body()!=null){
                                 listener.onGetMoviesSuccess(response.body());
-                            }else{
-                                listener.onGetMoviesFailed("No data");
                             }
                         }else{
                             listener.onGetMoviesFailed("Error: "+response.code());

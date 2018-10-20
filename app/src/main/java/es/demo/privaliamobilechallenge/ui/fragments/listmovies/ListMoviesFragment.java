@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.support.design.widget.Snackbar;
 import butterknife.BindView;
@@ -32,6 +33,10 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     EditText etSearch;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.llNoInternet)
+    LinearLayout llNoInternet;
+    @BindView(R.id.llError)
+    LinearLayout llError;
     private ListMoviesPresenter presenter;
     private int page;
     private int pagesTotal;
@@ -62,15 +67,10 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MoviesListAdapter(getActivity(),this);
         recyclerView.setAdapter(adapter);
-        presenter = new ListMoviesPresenter(this);
+        presenter = new ListMoviesPresenter(this,getActivity());
         presenter.onAttach(this);
         if (etSearch.getText().toString().isEmpty())    presenter.getMovieList(name_list,page);
         else                                            presenter.getMovieByKeyword(etSearch.getText().toString(),page);
-    }
-
-    @Override
-    public void showMessage(String message) {
-        showToast(message);
     }
 
     @Override
@@ -88,8 +88,19 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     }
 
     @Override
+    public void showError() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        etSearch.setEnabled(false);
+        llError.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void showNoInternetConnection() {
         progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        etSearch.setEnabled(false);
+        llNoInternet.setVisibility(View.VISIBLE);
     }
 
     @Override
