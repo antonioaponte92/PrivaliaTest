@@ -1,5 +1,6 @@
-package es.demo.privaliamobilechallenge.ui.listmovies;
+package es.demo.privaliamobilechallenge.ui.fragments.listmovies;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,9 +16,10 @@ import es.demo.privaliamobilechallenge.commons.BaseFragment;
 import es.demo.privaliamobilechallenge.data.models.Movie;
 import es.demo.privaliamobilechallenge.data.models.MoviesResponse;
 import es.demo.privaliamobilechallenge.ui.adapters.MoviesListAdapter;
-import es.demo.privaliamobilechallenge.ui.detailmovie.DetailMovieFragment;
-import es.demo.privaliamobilechallenge.ui.listmovies.mvp.ListMoviesContract;
-import es.demo.privaliamobilechallenge.ui.listmovies.mvp.ListMoviesPresenter;
+import es.demo.privaliamobilechallenge.ui.fragments.detailmovie.DetailMovieFragment;
+import es.demo.privaliamobilechallenge.ui.listeners.MainListener;
+import es.demo.privaliamobilechallenge.ui.fragments.listmovies.mvp.ListMoviesContract;
+import es.demo.privaliamobilechallenge.ui.fragments.listmovies.mvp.ListMoviesPresenter;
 
 public class ListMoviesFragment extends BaseFragment implements ListMoviesContract.View
         , MoviesListAdapter.MoviesRecyclerListener{
@@ -88,14 +90,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
 
     @Override
     public void onItemClick(Movie movie) {
-        if (getActivity().getFragmentManager()!=null){
-            DetailMovieFragment fragment = DetailMovieFragment.newInstance(movie);
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_layout, fragment,"detail")
-                    .addToBackStack("movie_detail")
-                    .commit();
-
-        }
+        listener.changeFragment(DetailMovieFragment.newInstance(movie));
     }
 
     @Override

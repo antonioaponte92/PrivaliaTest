@@ -1,4 +1,4 @@
-package es.demo.privaliamobilechallenge.ui.listmovies.mvp;
+package es.demo.privaliamobilechallenge.ui.fragments.listmovies.mvp;
 
 import android.util.Log;
 
