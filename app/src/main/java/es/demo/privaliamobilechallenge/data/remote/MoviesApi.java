@@ -13,4 +13,10 @@ public interface MoviesApi {
     Call<MoviesResponse> getMovies(@Path("list") String name_list,
                                    @Query("api_key") String key,
                                    @Query("page") int page);
+
+    @Headers("Content-Type:application/json")
+    @GET("search/movie")
+    Call<MoviesResponse>getMoviesByKeyword(@Query("api_key") String key,
+                                           @Query("query") String query,
+                                           @Query("page") int page);
 }

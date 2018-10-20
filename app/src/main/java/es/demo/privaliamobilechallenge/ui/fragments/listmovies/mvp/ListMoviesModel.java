@@ -39,4 +39,29 @@ public class ListMoviesModel {
                     }
                 });
     }
+
+    public void getMoviesByKeywords(String query, int page, final ListMoviesContract.ModelResultListener listener){
+        api.getMoviesByKeyword(BuildConfig.API_KEY,query,page)
+                .enqueue(new Callback<MoviesResponse>() {
+                    @Override
+                    public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                        Log.d(TAG,"onResponse Code: "+response.code());
+                        if (response.code()==200){
+                            if (response.body()!=null){
+                                listener.onGetMoviesSuccess(response.body());
+                            }else{
+                                listener.onGetMoviesFailed("No data");
+                            }
+                        }else{
+                            listener.onGetMoviesFailed("Error: "+response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                        Log.e(TAG,"onFailure "+t.getMessage());
+                        listener.onGetMoviesFailed(t.getMessage());
+                    }
+                });
+    }
 }
