@@ -99,6 +99,8 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     @Override
     public void showMovies(MoviesResponse response) {
         progressBar.setVisibility(View.GONE);
+        llNoInternet.setVisibility(View.GONE);
+        llError.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setRefreshing(false);
         pagesTotal = response.getTotalPages();
@@ -117,7 +119,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     public void showError() {
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
-        etSearch.setEnabled(false);
+        llNoInternet.setVisibility(View.GONE);
         llError.setVisibility(View.VISIBLE);
     }
 
@@ -126,6 +128,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         etSearch.setEnabled(false);
+        llError.setVisibility(View.GONE);
         llNoInternet.setVisibility(View.VISIBLE);
     }
 
