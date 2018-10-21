@@ -28,8 +28,10 @@ public class ListMoviesPresenter implements ListMoviesContract.Presenter,ListMov
     @Override
     public void getMovieByKeyword(String query, int page) {
         if (view==null) return;
-        if (Utils.isNetworkAvailable(context))
+        if (Utils.isNetworkAvailable(context)){
+            model.cancelRequests();
             model.getMoviesByKeywords(query,page,this);
+        }
         else
             view.showNoInternetConnection();
     }
