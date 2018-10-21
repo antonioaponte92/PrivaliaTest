@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.codesgood.views.JustifiedTextView;
 
 import java.util.List;
 
@@ -74,7 +75,7 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Vi
         @BindView(R.id.tv_name)
         TextView tv_name;
         @BindView(R.id.tv_overview)
-        TextView tv_overview;
+        JustifiedTextView tv_overview;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

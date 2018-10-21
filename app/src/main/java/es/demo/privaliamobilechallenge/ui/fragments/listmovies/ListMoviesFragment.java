@@ -184,6 +184,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
 
     @Override
     public void onClickCat(int pos) {
+        etSearch.setText(null);
         name_list = categories_val.get(pos);
         page = 1;
         presenter.getMovieList(name_list,page);

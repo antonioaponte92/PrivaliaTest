@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.codesgood.views.JustifiedTextView;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import es.demo.privaliamobilechallenge.BuildConfig;
@@ -19,10 +21,10 @@ import es.demo.privaliamobilechallenge.ui.fragments.listmovies.ListMoviesFragmen
 
 public class DetailMovieFragment extends BaseFragment{
     @BindView(R.id.tv_title)        TextView tv_title;
-    @BindView(R.id.tv_overview)     TextView tv_overview;
+    @BindView(R.id.tv_overview)     JustifiedTextView tv_overview;
     @BindView(R.id.tv_year)         TextView tv_year;
     @BindView(R.id.iv_poster)       ImageView iv_poster;
-    @BindView(R.id.iv_backdrop)       ImageView iv_back;
+    @BindView(R.id.iv_backdrop)     ImageView iv_back;
 
     public static DetailMovieFragment newInstance(Movie movie) {
         Bundle args = new Bundle();

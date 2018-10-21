@@ -29,7 +29,7 @@
                     android:textColor="@color/primaryText"
                     android:textSize="18sp"
                     android:gravity="center"/>
-                <TextView
+                <com.codesgood.views.JustifiedTextView
                     android:id="@+id/tv_overview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

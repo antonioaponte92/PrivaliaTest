@@ -48,9 +48,10 @@
             android:orientation="horizontal"
             android:paddingStart="16dp"
             android:paddingLeft="16dp"
-            android:paddingTop="16dp">
+            android:paddingTop="16dp"
+            android:layout_margin="5dp">
 
-            <TextView
+            <com.codesgood.views.JustifiedTextView
                 android:id="@+id/tv_overview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

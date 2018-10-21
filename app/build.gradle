@@ -38,4 +38,6 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:${GlideLibraryVersion}"
     implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     implementation "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+
+    implementation 'com.codesgood:justifiedtextview:1.1.0'
 }
