@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import es.demo.privaliamobilechallenge.R;
 import es.demo.privaliamobilechallenge.commons.BaseActivity;
@@ -43,6 +44,13 @@ public class MainActivity extends BaseActivity implements MainListener{
         ft.add(R.id.frame_layout, ListMoviesFragment.newInstance());
         ft.addToBackStack("ListMoviesFragment");
         ft.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (getSupportFragmentManager().getBackStackEntryCount()==0)
+            finish();
     }
 
     @Override

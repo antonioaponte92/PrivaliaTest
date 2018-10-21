@@ -157,6 +157,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
 
     @OnTextChanged(value = R.id.etSearch, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     void afterTextChanged(Editable editable){
+        page = 1;
         if (editable.toString().isEmpty())
             presenter.getMovieList(name_list,page);
         else{
