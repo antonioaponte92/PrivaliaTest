@@ -187,6 +187,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         onTouch(recyclerView);
         name_list = categories_val.get(pos);
         page = 1;
+        recyclerView.scrollToPosition(0);
         presenter.getMovieList(name_list,page);
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
