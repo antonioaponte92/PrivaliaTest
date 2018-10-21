@@ -1,5 +1,7 @@
 package es.demo.privaliamobilechallenge.ui;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,11 +9,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import es.demo.privaliamobilechallenge.R;
 import es.demo.privaliamobilechallenge.commons.BaseActivity;
+import es.demo.privaliamobilechallenge.commons.Consts;
 import es.demo.privaliamobilechallenge.ui.listeners.MainListener;
 import es.demo.privaliamobilechallenge.ui.fragments.listmovies.ListMoviesFragment;
 
 public class MainActivity extends BaseActivity implements MainListener{
     FragmentManager fm;
+    SharedPreferences sharedPreferences;
 
     @Override
     public int getLayout() {
@@ -22,6 +26,7 @@ public class MainActivity extends BaseActivity implements MainListener{
     public void onCreateView(@Nullable Bundle savedInstanceState) {
         fm = getSupportFragmentManager();
         pushFragment(ListMoviesFragment.newInstance());
+        sharedPreferences = getSharedPreferences(Consts.Keys.PREF, Context.MODE_PRIVATE);
     }
 
     public void pushFragment(Fragment fragment){
@@ -39,5 +44,11 @@ public class MainActivity extends BaseActivity implements MainListener{
     @Override
     public void changeFragment(Fragment fragment) {
         pushFragment(fragment);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sharedPreferences.edit().clear().apply();
     }
 }

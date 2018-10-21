@@ -1,6 +1,7 @@
 package es.demo.privaliamobilechallenge.ui.fragments.listmovies;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -26,6 +26,7 @@ import butterknife.OnTextChanged;
 import butterknife.OnTouch;
 import es.demo.privaliamobilechallenge.R;
 import es.demo.privaliamobilechallenge.commons.BaseFragment;
+import es.demo.privaliamobilechallenge.commons.Consts;
 import es.demo.privaliamobilechallenge.data.models.Movie;
 import es.demo.privaliamobilechallenge.data.models.MoviesResponse;
 import es.demo.privaliamobilechallenge.ui.adapters.CategoriesAdapter;
@@ -39,29 +40,20 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         , MoviesListAdapter.MoviesRecyclerListener
         , SwipeRefreshLayout.OnRefreshListener
         , CategoriesListener{
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-    @BindView(R.id.etSearch)
-    EditText etSearch;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
-    @BindView(R.id.llNoInternet)
-    LinearLayout llNoInternet;
-    @BindView(R.id.llError)
-    LinearLayout llError;
-    @BindView(R.id.swipe)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.recyclerCat)
-    RecyclerView recyclerCat;
+    @BindView(R.id.recycler_view)           RecyclerView recyclerView;
+    @BindView(R.id.etSearch)                EditText etSearch;
+    @BindView(R.id.progressBar)             ProgressBar progressBar;
+    @BindView(R.id.llNoInternet)            LinearLayout llNoInternet;
+    @BindView(R.id.llError)                 LinearLayout llError;
+    @BindView(R.id.swipe)                   SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.recyclerCat)             RecyclerView recyclerCat;
+    SharedPreferences sharedPreferences;
     private ListMoviesPresenter presenter;
-    private int page;
-    private int pagesTotal;
+    private int page,pagesTotal;
     private String name_list;
     MoviesListAdapter adapter;
     LinearLayoutManager linearLayoutManager;
-    List<String> categories;
-    List<String> categories_val;
-    String selectedCat;
+    List<String> categories,categories_val;
     CategoriesAdapter catAdapter;
 
     public static ListMoviesFragment newInstance() {
@@ -79,9 +71,10 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sharedPreferences = getActivity().getSharedPreferences(Consts.Keys.PREF,Context.MODE_PRIVATE);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         page = 1;
-        name_list = "popular";
+        name_list = sharedPreferences.getString(Consts.Keys.ACTIVE,"popular");
         createCategories();
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(true);
@@ -102,7 +95,6 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         categories_val = new ArrayList<>();
         categories.addAll(Arrays.asList(getResources().getStringArray(R.array.categories)));
         categories_val.addAll(Arrays.asList(getResources().getStringArray(R.array.categories_values)));
-        selectedCat = categories_val.get(0);
         catAdapter = new CategoriesAdapter(this,categories);
         recyclerCat.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
         recyclerCat.setAdapter(catAdapter);
@@ -186,6 +178,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     public void onClickCat(int pos) {
         etSearch.setText(null);
         name_list = categories_val.get(pos);
+        sharedPreferences.edit().putString(Consts.Keys.ACTIVE,name_list).apply();
         page = 1;
         presenter.getMovieList(name_list,page);
         progressBar.setVisibility(View.VISIBLE);
