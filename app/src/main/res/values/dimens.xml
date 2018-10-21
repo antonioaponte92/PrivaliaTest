@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="paddingChipsHorizontal">5dp</dimen>
+    <dimen name="paddingChipsHorizontal">10dp</dimen>
     <dimen name="paddingChipsVertical">5dp</dimen>
 </resources>

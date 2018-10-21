@@ -92,7 +92,8 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         presenter.onAttach(this);
         if (etSearch.getText().toString().isEmpty())    presenter.getMovieList(name_list,page);
         else                                            presenter.getMovieByKeyword(etSearch.getText().toString(),page);
-
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
@@ -109,6 +110,8 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
 
     @Override
     public void showMovies(MoviesResponse response) {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setRefreshing(false);
         pagesTotal = response.getTotalPages();
         progressBar.setVisibility(View.GONE);
@@ -184,6 +187,8 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         name_list = categories_val.get(pos);
         page = 1;
         presenter.getMovieList(name_list,page);
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
         if (getView()!=null)
             Snackbar.make(getView(),getString(R.string.getting).replace("REPLACE",categories.get(pos)),Snackbar.LENGTH_SHORT).show();
     }
