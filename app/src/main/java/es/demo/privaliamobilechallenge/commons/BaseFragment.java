@@ -4,11 +4,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import es.demo.privaliamobilechallenge.ui.listeners.MainListener;
@@ -38,10 +38,11 @@ public abstract class BaseFragment extends Fragment{
 
     public abstract int getLayout();
 
-    protected void showToast(int intRes){
-        showToast(getString(intRes));
+    protected void showSnackBar(int intRes){
+        showSnackBar(getString(intRes));
     }
-    protected void showToast(String text){
-        Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+    protected void showSnackBar(String text){
+        if (getView()!=null)
+            Snackbar.make(getView(),text,Snackbar.LENGTH_SHORT).show();
     }
 }

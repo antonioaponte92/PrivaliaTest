@@ -2,8 +2,8 @@ package es.demo.privaliamobilechallenge.commons;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import butterknife.ButterKnife;
 
@@ -20,10 +20,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     public abstract int getLayout();
     public abstract void onCreateView(@Nullable Bundle savedInstanceState);
 
-    protected void showToast(int intRes){
-        showToast(getString(intRes));
+    protected void showSnackBar(int intRes){
+        showSnackBar(getString(intRes));
     }
-    protected void showToast(String text){
-        Toast.makeText(BaseActivity.this,text,Toast.LENGTH_SHORT).show();
+    protected void showSnackBar(String text){
+        Snackbar.make(findViewById(android.R.id.content),text,Snackbar.LENGTH_SHORT).show();
     }
 }

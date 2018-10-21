@@ -137,13 +137,11 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     @Override
     public void loadMore() {
         if (page < pagesTotal){
-            if (getView()!=null)
-                Snackbar.make(getView(), R.string.loading_movies, Snackbar.LENGTH_SHORT).show();
+            showSnackBar(R.string.loading_movies);
             page++;
             presenter.getMovieList(name_list,page);
         }else
-            if (getView()!=null)
-                Snackbar.make(getView(), R.string.limit, Snackbar.LENGTH_LONG).show();
+            showSnackBar(R.string.limit);
 
     }
 
@@ -178,7 +176,6 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         presenter.getMovieList(name_list,page);
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
-        if (getView()!=null)
-            Snackbar.make(getView(),getString(R.string.getting).replace("REPLACE",categories.get(pos)),Snackbar.LENGTH_SHORT).show();
+        showSnackBar(getString(R.string.getting).replace("REPLACE",categories.get(pos)));
     }
 }
