@@ -1,21 +1,18 @@
 package es.demo.privaliamobilechallenge.ui;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
 import es.demo.privaliamobilechallenge.R;
 import es.demo.privaliamobilechallenge.commons.BaseActivity;
-import es.demo.privaliamobilechallenge.commons.Consts;
-import es.demo.privaliamobilechallenge.ui.listeners.MainListener;
 import es.demo.privaliamobilechallenge.ui.fragments.listmovies.ListMoviesFragment;
+import es.demo.privaliamobilechallenge.ui.listeners.MainListener;
 
 public class MainActivity extends BaseActivity implements MainListener{
     FragmentManager fm;
-    SharedPreferences sharedPreferences;
 
     @Override
     public int getLayout() {
@@ -25,30 +22,31 @@ public class MainActivity extends BaseActivity implements MainListener{
     @Override
     public void onCreateView(@Nullable Bundle savedInstanceState) {
         fm = getSupportFragmentManager();
-        pushFragment(ListMoviesFragment.newInstance());
-        sharedPreferences = getSharedPreferences(Consts.Keys.PREF, Context.MODE_PRIVATE);
+        pushListFragment();
     }
 
     public void pushFragment(Fragment fragment){
-        String backStateName = fragment.getClass().getName();
-        FragmentManager manager = getSupportFragmentManager();
-        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
-        if (!fragmentPopped) { //fragment not in back stack, create it.
-            FragmentTransaction ft = manager.beginTransaction();
-            ft.replace(R.id.frame_layout, fragment);
-            ft.addToBackStack(backStateName);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if ("DetailMovieFragment".equals(fragment.getClass().getSimpleName())){
+            FragmentTransaction ft=fragmentManager.beginTransaction();
+            ft.add(R.id.frame_layout, fragment);
+            ft.addToBackStack("ListMoviesFragment");
             ft.commit();
+        }else{
+            fragmentManager.popBackStackImmediate();
         }
+    }
+
+    public void pushListFragment(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft=fragmentManager.beginTransaction();
+        ft.add(R.id.frame_layout, ListMoviesFragment.newInstance());
+        ft.addToBackStack("ListMoviesFragment");
+        ft.commit();
     }
 
     @Override
     public void changeFragment(Fragment fragment) {
         pushFragment(fragment);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        sharedPreferences.edit().clear().apply();
     }
 }

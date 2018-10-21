@@ -1,10 +1,10 @@
 package es.demo.privaliamobilechallenge.ui.fragments.listmovies;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +15,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.support.design.widget.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +25,6 @@ import butterknife.OnTextChanged;
 import butterknife.OnTouch;
 import es.demo.privaliamobilechallenge.R;
 import es.demo.privaliamobilechallenge.commons.BaseFragment;
-import es.demo.privaliamobilechallenge.commons.Consts;
 import es.demo.privaliamobilechallenge.data.models.Movie;
 import es.demo.privaliamobilechallenge.data.models.MoviesResponse;
 import es.demo.privaliamobilechallenge.ui.adapters.CategoriesAdapter;
@@ -47,7 +45,6 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     @BindView(R.id.llError)                 LinearLayout llError;
     @BindView(R.id.swipe)                   SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recyclerCat)             RecyclerView recyclerCat;
-    SharedPreferences sharedPreferences;
     private ListMoviesPresenter presenter;
     private int page,pagesTotal;
     private String name_list;
@@ -71,10 +68,9 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sharedPreferences = getActivity().getSharedPreferences(Consts.Keys.PREF,Context.MODE_PRIVATE);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         page = 1;
-        name_list = sharedPreferences.getString(Consts.Keys.ACTIVE,"popular");
+        name_list = "popular";
         createCategories();
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(true);
@@ -178,7 +174,6 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     public void onClickCat(int pos) {
         etSearch.setText(null);
         name_list = categories_val.get(pos);
-        sharedPreferences.edit().putString(Consts.Keys.ACTIVE,name_list).apply();
         page = 1;
         presenter.getMovieList(name_list,page);
         progressBar.setVisibility(View.VISIBLE);
