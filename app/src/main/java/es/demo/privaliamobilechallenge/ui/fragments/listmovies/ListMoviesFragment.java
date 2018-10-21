@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,6 +42,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     @BindView(R.id.progressBar)             ProgressBar progressBar;
     @BindView(R.id.llNoInternet)            LinearLayout llNoInternet;
     @BindView(R.id.llError)                 LinearLayout llError;
+    @BindView(R.id.llNoData)                 LinearLayout llNoData;
     @BindView(R.id.swipe)                   SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recyclerCat)             RecyclerView recyclerCat;
     private ListMoviesPresenter presenter;
@@ -101,6 +101,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         progressBar.setVisibility(View.GONE);
         llNoInternet.setVisibility(View.GONE);
         llError.setVisibility(View.GONE);
+        llNoData.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setRefreshing(false);
         pagesTotal = response.getTotalPages();
@@ -113,6 +114,11 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     @Override
     public void showNoResult() {
         progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        llNoInternet.setVisibility(View.GONE);
+        llError.setVisibility(View.GONE);
+        llNoData.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -120,6 +126,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         llNoInternet.setVisibility(View.GONE);
+        llNoData.setVisibility(View.GONE);
         llError.setVisibility(View.VISIBLE);
     }
 
@@ -127,7 +134,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     public void showNoInternetConnection() {
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
-        etSearch.setEnabled(false);
+        llNoData.setVisibility(View.GONE);
         llError.setVisibility(View.GONE);
         llNoInternet.setVisibility(View.VISIBLE);
     }
@@ -152,8 +159,10 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     void afterTextChanged(Editable editable){
         if (editable.toString().isEmpty())
             presenter.getMovieList(name_list,page);
-        else
+        else{
+            recyclerView.scrollToPosition(0);
             presenter.getMovieByKeyword(editable.toString(),page);
+        }
     }
 
     @OnTouch(R.id.recycler_view)
@@ -174,6 +183,7 @@ public class ListMoviesFragment extends BaseFragment implements ListMoviesContra
     @Override
     public void onClickCat(int pos) {
         etSearch.setText(null);
+        onTouch(recyclerView);
         name_list = categories_val.get(pos);
         page = 1;
         presenter.getMovieList(name_list,page);

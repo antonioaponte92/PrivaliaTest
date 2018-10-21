@@ -27,4 +27,5 @@
     <string name="no_internet">There is no internet connection</string>
     <string name="error">Something went wrong</string>
     <string name="getting">Loading REPLACE list</string>
+    <string name="no_data">No results</string>
 </resources>
